@@ -35,8 +35,8 @@ public class GolbalExceptionHandler {
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(DeleteBidException.class)
-	public ResponseEntity<ProductResponse> handleDeleteBidException(DeleteBidException exception){
+	@ExceptionHandler(BiddingException.class)
+	public ResponseEntity<ProductResponse> handleDeleteBidException(BiddingException exception){
 		log.error("Withing handleDeleteBidException() of GolbalExceptionHandler. Error is {}", exception.getMessage());
 		ProductResponse productResponse = exception.getProductResponse();
 		productResponse.setResponseTime(new Date());

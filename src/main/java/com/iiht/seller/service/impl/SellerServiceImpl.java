@@ -10,7 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iiht.seller.exception.DeleteBidException;
+import com.iiht.seller.exception.BiddingException;
 import com.iiht.seller.exception.InvalidInputException;
 import com.iiht.seller.exception.MongoDBException;
 import com.iiht.seller.model.Buyer;
@@ -20,7 +20,7 @@ import com.iiht.seller.model.ProductResponse;
 import com.iiht.seller.repository.SellerRepository;
 import com.iiht.seller.service.SellerService;
 import com.iiht.seller.util.AppConstants;
-import com.iiht.seller.validator.ProductDataValidator;
+import com.iiht.seller.validator.BuyerDataValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +32,7 @@ public class SellerServiceImpl implements SellerService {
 	SellerRepository sellerRepository;
 
 	@Autowired
-	ProductDataValidator validator;
+	BuyerDataValidator validator;
 
 	@Override
 	public String addProduct(Product product, ProductResponse response)
@@ -56,7 +56,7 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public void deleteProduct(String productId, ProductResponse response) throws InvalidInputException, DeleteBidException, MongoDBException {
+	public void deleteProduct(String productId, ProductResponse response) throws InvalidInputException, BiddingException, MongoDBException {
 		log.debug("Within deleteProduct() of SellerServiceImpl class...");
 		Product product = sellerRepository.getDataById(productId);
 
@@ -74,7 +74,7 @@ public class SellerServiceImpl implements SellerService {
 		boolean flag = sellerRepository.isBidPresentOnProduct(productId);
 		if (flag == true) {
 			log.error("Bid already present on this product. You can't delete it.");
-			throw new DeleteBidException("Bid already present on this product. You can't delete it.", response);
+			throw new BiddingException("Bid already present on this product. You can't delete it.", response);
 		}
 		
 		log.info("Going to delete the product based on product id {}", productId);

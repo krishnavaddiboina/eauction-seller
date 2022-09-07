@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.iiht.seller.exception.DeleteBidException;
+import com.iiht.seller.exception.BiddingException;
 import com.iiht.seller.exception.InvalidInputException;
 import com.iiht.seller.exception.MongoDBException;
 import com.iiht.seller.model.Product;
@@ -56,7 +56,7 @@ public class SellerController {
 	}
 
 	@DeleteMapping("/delete/{productId}")
-	public ResponseEntity<ProductResponse> deleteProduct(@PathVariable String productId) throws DeleteBidException, InvalidInputException, MongoDBException {
+	public ResponseEntity<ProductResponse> deleteProduct(@PathVariable String productId) throws BiddingException, InvalidInputException, MongoDBException {
 		log.info("Got the product id {} to delete...", productId);
 		ProductResponse productResponse = new ProductResponse();
 		sellerService.deleteProduct(productId, productResponse);
