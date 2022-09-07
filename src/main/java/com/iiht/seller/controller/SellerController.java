@@ -56,11 +56,12 @@ public class SellerController {
 	}
 
 	@DeleteMapping("/delete/{productId}")
-	public ResponseEntity<ProductResponse> deleteProduct(@PathVariable String productId) throws BiddingException, InvalidInputException, MongoDBException {
+	public ResponseEntity<ProductResponse> deleteProduct(@PathVariable String productId)
+			throws BiddingException, InvalidInputException, MongoDBException {
 		log.info("Got the product id {} to delete...", productId);
 		ProductResponse productResponse = new ProductResponse();
 		sellerService.deleteProduct(productId, productResponse);
-		
+
 		productResponse.setMessage("Product deleted successfully");
 		productResponse.setStatus(String.valueOf(HttpStatus.OK.value()));
 		productResponse.setResponseTime(new Date());
@@ -69,15 +70,15 @@ public class SellerController {
 	}
 
 	@GetMapping("/show-bids/{productId}")
-	public ProductBids showProductBids(@PathVariable String productId) {
-		ProductBids productBids = null;
-		try {
-			productBids = sellerService.showProductBids(productId);
-		} catch (Exception e) {
-			// log.error("Error while deleting product {}", e.getMessage());
-			e.getMessage();
+	public ResponseEntity<ProductBids> showProductBids(@PathVariable String productId) throws MongoDBException, InvalidInputException {
+
+		ProductBids productBids = sellerService.showProductBids(productId);
+		
+		if(productBids != null && productBids.getProduct() != null && productBids.getProduct().getId() != null) {
+			return new ResponseEntity<ProductBids>(productBids, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<ProductBids>(productBids, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return productBids;
 	}
 
 }

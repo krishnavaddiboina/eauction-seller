@@ -14,6 +14,6 @@ public interface SellerService {
 
 	void deleteProduct(String productId, ProductResponse productResponse) throws  BiddingException, InvalidInputException, MongoDBException;
 
-	ProductBids showProductBids(String productId) throws MongoDBException;
+	ProductBids showProductBids(String productId) throws MongoDBException, InvalidInputException;
 
 }

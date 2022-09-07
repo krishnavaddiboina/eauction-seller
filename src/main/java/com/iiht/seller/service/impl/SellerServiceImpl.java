@@ -87,14 +87,20 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public ProductBids showProductBids(String productId) throws MongoDBException {
-
+	public ProductBids showProductBids(String productId) throws MongoDBException, InvalidInputException {
+		ProductResponse response = new ProductResponse();
 		Product product = sellerRepository.getDataById(productId);
-		List<Buyer> buyers = sellerRepository.getBuyerDetails(productId);
-		ProductBids productBids = new ProductBids();
-		productBids.setProduct(product);
-		productBids.setBuyers(buyers);
-		return productBids;
+		if(product != null) {
+			List<Buyer> buyers = sellerRepository.getBuyerDetails(productId);
+			ProductBids productBids = new ProductBids();
+			productBids.setProduct(product);
+			productBids.setBuyers(buyers);
+			return productBids;
+		}else {
+			log.error("Product Id does not exist....");
+			throw new InvalidInputException("Product Id does not exist", response);
+		}
+		
 	}
 
 	public LocalDate getFormattedBidEndDate(Date bidEndDate) {

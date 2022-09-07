@@ -12,7 +12,7 @@ public interface SellerRepository {
 	
 	boolean isBidPresentOnProduct(String productId) throws MongoDBException;
 
-	List<Buyer> getBuyerDetails(String productId);
+	List<Buyer> getBuyerDetails(String productId) throws MongoDBException;
 
 	Product getDataById(String productId) throws MongoDBException;
 
