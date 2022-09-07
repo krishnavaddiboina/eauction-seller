@@ -69,16 +69,21 @@ public class SellerServiceImpl implements SellerService {
 				log.error("Bid end date is over. You can't delete it.");
 				throw new InvalidInputException("Bid end date is over. You can't delete it.", response);
 			}
+			
+			boolean flag = sellerRepository.isBidPresentOnProduct(productId);
+			if (flag == true) {
+				log.error("Bid already present on this product. You can't delete it.");
+				throw new BiddingException("Bid already present on this product. You can't delete it.", response);
+			}
+			
+			log.info("Going to delete the product based on product id {}", productId);
+			sellerRepository.deleteProduct(productId);
+		}else {
+			log.error("Product Id does not exist....");
+			throw new InvalidInputException("Product Id does not exist", response);
 		}
 
-		boolean flag = sellerRepository.isBidPresentOnProduct(productId);
-		if (flag == true) {
-			log.error("Bid already present on this product. You can't delete it.");
-			throw new BiddingException("Bid already present on this product. You can't delete it.", response);
-		}
 		
-		log.info("Going to delete the product based on product id {}", productId);
-		sellerRepository.deleteProduct(productId);
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class SellerRepositoryImpl implements SellerRepository {
 		log.debug("Within isBidPresentOnProduct() of SellerRepositoryImpl class...");
 		boolean flag = false;
 		try {
-			Query query = new Query(Criteria.where("productId").is(new ObjectId(productId)));
+			Query query = new Query(Criteria.where("productId").is(productId));
 			List<Buyer> buyers = mongoTemplate.find(query, Buyer.class);
 			if (buyers != null && buyers.size() > 0) {
 				flag = true;
