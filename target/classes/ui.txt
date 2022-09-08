@@ -1,0 +1,82 @@
+import logo from './logo.svg';
+import './App.css';
+
+import { useEffect, useState } from 'react';
+
+function App() {  
+  const [products, setProducts] = useState([])
+  const [productBids, setProductDetails] = useState([])
+  const [yourname, setState] = useState([])
+
+  
+
+  
+  const onChange = (e) => {
+    console.log("onchange = "+e.target.value);
+    setState(e.target.value);
+  };
+
+
+ 
+  const onSubmitEvent1 = async (e) => {
+     e.preventDefault();
+    console.log("Hello " + yourname + "!");
+
+    const resultData =  await fetch('http://localhost:8081/seller/show-bids/'+yourname)
+    const jsonResultData =  await resultData.json()
+console.log("jsonResultData = "+jsonResultData.product.productName);
+    setProductDetails(jsonResultData);
+    console.log("productBids"+productBids.productName);
+  };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch('http://localhost:8081/seller/getProducts')
+      const jsonResult = await result.json()
+
+      setProducts(jsonResult);
+    }
+    fetchData()
+  }, [])
+
+  
+
+  return (
+    <div className="products_container">
+      <form onSubmit={onSubmitEvent1}>
+      <table>
+        <tr>
+          <td>Product</td>
+        <td>
+        <select name="yourname"  onChange={onChange}>
+      {products && products.map(product => 
+        
+          <option value={product.id}>{product.productName}</option>
+        
+       )}
+       </select>
+       </td>
+       <td><button type="submit">GET</button></td>
+       </tr>
+       </table>       
+       </form>
+
+       <table>
+         <tr>
+           <td>Short Description</td>
+           <td>
+          
+        
+        <h3>{productBids.shortDescription}</h3>
+      
+   
+           </td>
+         </tr>
+       </table>
+    </div>
+    
+  );
+}
+
+export default App;
