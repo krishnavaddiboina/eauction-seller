@@ -1,5 +1,8 @@
 package com.iiht.seller.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.iiht.seller.exception.BiddingException;
 
 import com.iiht.seller.exception.InvalidInputException;
@@ -15,5 +18,7 @@ public interface SellerService {
 	void deleteProduct(String productId, ProductResponse productResponse) throws  BiddingException, InvalidInputException, MongoDBException;
 
 	ProductBids showProductBids(String productId) throws MongoDBException, InvalidInputException;
+
+	List<Product> getAllProducts() throws MongoDBException;
 
 }

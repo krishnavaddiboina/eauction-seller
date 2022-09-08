@@ -18,5 +18,7 @@ public interface SellerRepository {
 
 	void deleteProduct(String productId) throws MongoDBException;
 
+	List<Product> getAllProducts() throws MongoDBException;
+
 	
 }

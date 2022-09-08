@@ -1,11 +1,14 @@
 package com.iiht.seller.controller;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins="http://localhost:3000")
 public class SellerController {
 
 	@Autowired
@@ -71,13 +75,28 @@ public class SellerController {
 
 	@GetMapping("/show-bids/{productId}")
 	public ResponseEntity<ProductBids> showProductBids(@PathVariable String productId) throws MongoDBException, InvalidInputException {
-
+		log.info("Got the product id {}....", productId);
 		ProductBids productBids = sellerService.showProductBids(productId);
 		
 		if(productBids != null && productBids.getProduct() != null && productBids.getProduct().getId() != null) {
+			log.info("Got the product bids data successfully");
 			return new ResponseEntity<ProductBids>(productBids, HttpStatus.OK);
 		}else {
+			log.info("Error while getting the product bids data successfully");
 			return new ResponseEntity<ProductBids>(productBids, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping("/getProducts")
+	public ResponseEntity<List<Product>> getAllProducts() throws MongoDBException{
+		log.info("processing request to get all products from db");
+		List<Product> productsList = sellerService.getAllProducts();
+		if(productsList != null && productsList.size() > 0) {
+			log.info("Got all the products data successfully");
+			return new ResponseEntity<List<Product>>(productsList, HttpStatus.OK);
+		}else {
+			log.error("Error occured while getting all products from mongo DB");
+			return new ResponseEntity<List<Product>>(productsList, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 

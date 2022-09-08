@@ -6,6 +6,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,8 @@ public class SellerServiceImpl implements SellerService {
 	BuyerDataValidator validator;
 
 	@Override
-	public String addProduct(Product product, ProductResponse response)
-			throws InvalidInputException, MongoDBException {
-		
+	public String addProduct(Product product, ProductResponse response) throws InvalidInputException, MongoDBException {
+
 		log.debug("Within addProduct() of SellerService class...");
 		validator.validateRequestData(product, response);
 		log.info("request data validation successfull...");
@@ -52,11 +52,12 @@ public class SellerServiceImpl implements SellerService {
 			}
 		}
 		log.info("Going to add the product....");
-		 return sellerRepository.addProduct(product);
+		return sellerRepository.addProduct(product);
 	}
 
 	@Override
-	public void deleteProduct(String productId, ProductResponse response) throws InvalidInputException, BiddingException, MongoDBException {
+	public void deleteProduct(String productId, ProductResponse response)
+			throws InvalidInputException, BiddingException, MongoDBException {
 		log.debug("Within deleteProduct() of SellerServiceImpl class...");
 		Product product = sellerRepository.getDataById(productId);
 
@@ -69,38 +70,37 @@ public class SellerServiceImpl implements SellerService {
 				log.error("Bid end date is over. You can't delete it.");
 				throw new InvalidInputException("Bid end date is over. You can't delete it.", response);
 			}
-			
+
 			boolean flag = sellerRepository.isBidPresentOnProduct(productId);
 			if (flag == true) {
 				log.error("Bid already present on this product. You can't delete it.");
 				throw new BiddingException("Bid already present on this product. You can't delete it.", response);
 			}
-			
+
 			log.info("Going to delete the product based on product id {}", productId);
 			sellerRepository.deleteProduct(productId);
-		}else {
+		} else {
 			log.error("Product Id does not exist....");
 			throw new InvalidInputException("Product Id does not exist", response);
 		}
 
-		
 	}
 
 	@Override
 	public ProductBids showProductBids(String productId) throws MongoDBException, InvalidInputException {
 		ProductResponse response = new ProductResponse();
 		Product product = sellerRepository.getDataById(productId);
-		if(product != null) {
+		if (product != null) {
 			List<Buyer> buyers = sellerRepository.getBuyerDetails(productId);
 			ProductBids productBids = new ProductBids();
 			productBids.setProduct(product);
 			productBids.setBuyers(buyers);
 			return productBids;
-		}else {
+		} else {
 			log.error("Product Id does not exist....");
 			throw new InvalidInputException("Product Id does not exist", response);
 		}
-		
+
 	}
 
 	public LocalDate getFormattedBidEndDate(Date bidEndDate) {
@@ -109,6 +109,13 @@ public class SellerServiceImpl implements SellerService {
 
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT);
 		return LocalDate.parse(theBidEndDate, dtf);
+	}
+
+	@Override
+	public List<Product> getAllProducts() throws MongoDBException {
+		log.info("getting all products from mongo db....");
+		return sellerRepository.getAllProducts();
+
 	}
 
 }

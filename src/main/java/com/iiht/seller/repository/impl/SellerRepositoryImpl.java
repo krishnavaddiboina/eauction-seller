@@ -93,6 +93,17 @@ public class SellerRepositoryImpl implements SellerRepository {
 			log.error("Error occured while deleting product. Error is {}", exception.getMessage());
 			throw new MongoDBException("Error occured while deleting product in mongo db");
 		}
+	}
+
+	@Override
+	public List<Product> getAllProducts() throws MongoDBException {
+		log.debug("Within getAllProducts() of SellerRepositoryImpl class...");
+		try {			
+			return mongoTemplate.findAll(Product.class);
+		}catch(Exception exception) {
+			log.error("Error occured while getting all products. Error is {}", exception.getMessage());
+			throw new MongoDBException("Error occured while getting all products in mongo db");
+		}
 	}	
 
 	
