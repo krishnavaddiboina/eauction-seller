@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -74,7 +75,7 @@ public class SellerRepositoryImpl implements SellerRepository {
 	public List<Buyer> getBuyerDetails(String productId) throws MongoDBException {
 		log.debug("Within getBuyerDetails() of SellerRepositoryImpl class...");
 		try {
-			Query query = new Query(Criteria.where("productId").is(productId));
+			Query query = new Query(Criteria.where("productId").is(productId)).with(Sort.by(Sort.Direction.DESC, "bidAmount"));			
 			return mongoTemplate.find(query, Buyer.class);
 		}catch(Exception exception) {
 			log.error("Error occured while getting buyer details. Error is {}", exception.getMessage());
