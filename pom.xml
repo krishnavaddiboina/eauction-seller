@@ -16,6 +16,11 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<sonar.exclusions>src/main/java/com/iiht/seller/config/*,
+		src/main/java/com/iiht/seller/model/*,
+		src/main/java/com/iiht/seller/exception/*,
+		src/main/java/com/iiht/seller/util/*
+		</sonar.exclusions>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,6 +69,16 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar.maven.plugin</artifactId>
+				<version>3.9.1.2184</version>
+			</plugin>
+			<plugin>
+			  <groupId>org.jacoco</groupId>
+			  <artifactId>jacoco-maven-plugin</artifactId>
+			  <version>0.8.9-SNAPSHOT</version>
 			</plugin>
 		</plugins>
 	</build>

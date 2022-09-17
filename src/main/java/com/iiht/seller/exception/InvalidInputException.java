@@ -3,7 +3,6 @@ package com.iiht.seller.exception;
 import org.springframework.http.HttpStatus;
 
 import com.iiht.seller.model.ProductResponse;
-import com.iiht.seller.util.AppConstants;
 
 public class InvalidInputException extends Exception {
 	

@@ -1,10 +1,8 @@
 package com.iiht.seller.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.iiht.seller.exception.BiddingException;
-
 import com.iiht.seller.exception.InvalidInputException;
 import com.iiht.seller.exception.MongoDBException;
 import com.iiht.seller.model.Product;

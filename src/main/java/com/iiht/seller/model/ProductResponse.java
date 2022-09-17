@@ -2,8 +2,6 @@ package com.iiht.seller.model;
 
 import java.util.Date;
 
-import org.springframework.http.HttpStatus;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.iiht.seller.util.AppConstants;

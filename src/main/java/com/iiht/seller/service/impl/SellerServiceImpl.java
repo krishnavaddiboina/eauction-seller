@@ -6,7 +6,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ import com.iiht.seller.model.ProductResponse;
 import com.iiht.seller.repository.SellerRepository;
 import com.iiht.seller.service.SellerService;
 import com.iiht.seller.util.AppConstants;
-import com.iiht.seller.validator.BuyerDataValidator;
+import com.iiht.seller.validator.SellerDataValidator;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +32,7 @@ public class SellerServiceImpl implements SellerService {
 	SellerRepository sellerRepository;
 
 	@Autowired
-	BuyerDataValidator validator;
+	SellerDataValidator validator;
 
 	@Override
 	public String addProduct(Product product, ProductResponse response) throws InvalidInputException, MongoDBException {
@@ -72,7 +71,7 @@ public class SellerServiceImpl implements SellerService {
 			}
 
 			boolean flag = sellerRepository.isBidPresentOnProduct(productId);
-			if (flag == true) {
+			if (flag) {
 				log.error("Bid already present on this product. You can't delete it.");
 				throw new BiddingException("Bid already present on this product. You can't delete it.", response);
 			}

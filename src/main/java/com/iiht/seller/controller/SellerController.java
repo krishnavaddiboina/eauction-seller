@@ -48,12 +48,12 @@ public class SellerController {
 		if (productId != null) {
 			productResponse.setMessage("Product created successfully");
 			productResponse.setStatus(String.valueOf(HttpStatus.CREATED.value()));
-			return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.CREATED);
+			return new ResponseEntity<>(productResponse, HttpStatus.CREATED);
 		} else {
 			log.info("Product id is getting null");
 			productResponse.setMessage("Not able to add the product");
 			productResponse.setStatus(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
-			return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(productResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
@@ -68,7 +68,7 @@ public class SellerController {
 		productResponse.setMessage("Product deleted successfully");
 		productResponse.setStatus(String.valueOf(HttpStatus.OK.value()));
 		productResponse.setResponseTime(new Date());
-		return new ResponseEntity<ProductResponse>(productResponse, HttpStatus.OK);
+		return new ResponseEntity<>(productResponse, HttpStatus.OK);
 
 	}
 
@@ -79,10 +79,10 @@ public class SellerController {
 		
 		if(productBids != null && productBids.getProduct() != null && productBids.getProduct().getId() != null) {
 			log.info("Got the product bids data successfully");
-			return new ResponseEntity<ProductBids>(productBids, HttpStatus.OK);
+			return new ResponseEntity<>(productBids, HttpStatus.OK);
 		}else {
 			log.info("Error while getting the product bids data successfully");
-			return new ResponseEntity<ProductBids>(productBids, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(productBids, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
@@ -90,12 +90,12 @@ public class SellerController {
 	public ResponseEntity<List<Product>> getAllProducts() throws MongoDBException{
 		log.info("processing request to get all products from db");
 		List<Product> productsList = sellerService.getAllProducts();
-		if(productsList != null && productsList.size() > 0) {
+		if(!productsList.isEmpty()) {
 			log.info("Got all the products data successfully");
-			return new ResponseEntity<List<Product>>(productsList, HttpStatus.OK);
+			return new ResponseEntity<>(productsList, HttpStatus.OK);
 		}else {
 			log.error("Error occured while getting all products from mongo DB");
-			return new ResponseEntity<List<Product>>(productsList, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(productsList, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
