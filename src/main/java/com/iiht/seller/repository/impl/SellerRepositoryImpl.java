@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class SellerRepositoryImpl implements SellerRepository {
 	@Autowired
-	MongoTemplate mongoTemplate;	
+	private MongoTemplate mongoTemplate;	
 	
 	@Override
 	public String addProduct(Product product) throws MongoDBException {	
