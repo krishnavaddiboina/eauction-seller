@@ -48,12 +48,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<scope>test</scope>
-		</dependency>
+		</dependency>		
 	</dependencies>
 
 	<build>
@@ -78,7 +73,22 @@
 			<plugin>
 			  <groupId>org.jacoco</groupId>
 			  <artifactId>jacoco-maven-plugin</artifactId>
-			  <version>0.8.9-SNAPSHOT</version>
+			  <version>0.8.7</version>
+			  <executions>
+			  	<execution>
+			  		<id>jacoco-initialize</id>
+			  		<goals>
+			  			<goal>prepare-agent</goal>
+			  		</goals>
+			  	</execution>
+			  	<execution>
+			  		<id>jacoco-site</id>
+			  		<phase>package</phase>
+			  		<goals>
+			  			<goal>report</goal>
+			  		</goals>
+			  	</execution>
+			  </executions>
 			</plugin>
 		</plugins>
 	</build>
