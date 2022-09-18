@@ -102,7 +102,7 @@ public class SellerServiceImpl implements SellerService {
 
 	}
 
-	public LocalDate getFormattedBidEndDate(Date bidEndDate) {
+	private LocalDate getFormattedBidEndDate(Date bidEndDate) {
 		String theBidEndDate = bidEndDate.toInstant().atOffset(ZoneOffset.UTC)
 				.format(DateTimeFormatter.ofPattern(AppConstants.DATE_FORMAT));
 
