@@ -1,7 +1,9 @@
 package com.iiht.seller.repository.impl;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -44,7 +46,7 @@ class SellerRepositoryImplTest {
 		Mockito.when(mongoTemplate.save(Mockito.any())).thenReturn(product);
 		assertEquals(product.getId(), sellerRepositoryImpl.addProduct(product));
 		
-	}
+	}	
 	
 	@Test
 	void testGetDataById() throws MongoDBException {
@@ -55,7 +57,8 @@ class SellerRepositoryImplTest {
 		Mockito.when(mongoTemplate.findById(Mockito.any(), Mockito.any())).thenReturn(product);
 		assertEquals(product, sellerRepositoryImpl.getDataById(productId));
 		
-	}
+	}	
+
 	
 	@Test
 	void testIsBidPresentOnProduct() throws MongoDBException {

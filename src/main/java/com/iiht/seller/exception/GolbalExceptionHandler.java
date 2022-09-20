@@ -27,7 +27,7 @@ public class GolbalExceptionHandler {
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(MongoDBException.class)
-	public ResponseEntity<ProductResponse> INTERNAL_SERVER_ERROR(MongoDBException exception){
+	public ResponseEntity<ProductResponse> handleInternalServerException(MongoDBException exception){
 		log.error("Withing handleMongoDBException() of GolbalExceptionHandler. Error is {}", exception.getMessage());
 		ProductResponse productResponse = exception.getProductResponse();
 		productResponse.setResponseTime(new Date());
