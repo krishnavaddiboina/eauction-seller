@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins="http://localhost:3000")
+//@CrossOrigin(origins="http://localhost:3000")
 public class SellerController {
 
 	@Autowired
@@ -48,6 +48,7 @@ public class SellerController {
 		if (productId != null) {
 			productResponse.setMessage("Product created successfully");
 			productResponse.setStatus(String.valueOf(HttpStatus.CREATED.value()));
+			productResponse.setProductId(productId);
 			return new ResponseEntity<>(productResponse, HttpStatus.CREATED);
 		} else {
 			log.info("Product id is getting null");
@@ -97,6 +98,11 @@ public class SellerController {
 			log.error("Error occured while getting all products from mongo DB");
 			return new ResponseEntity<>(productsList, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@GetMapping("/message")
+	public String message() {
+		return "seller application deployed successfully";
 	}
 
 }

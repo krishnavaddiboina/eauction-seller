@@ -24,5 +24,7 @@ public class ProductResponse {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = AppConstants.RESPONSE_DATE_PATTERN)
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Date responseTime;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	private String productId;
 
 }
