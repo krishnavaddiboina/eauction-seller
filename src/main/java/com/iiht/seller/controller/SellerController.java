@@ -74,35 +74,31 @@ public class SellerController {
 	}
 
 	@GetMapping("/show-bids/{productId}")
-	public ResponseEntity<ProductBids> showProductBids(@PathVariable String productId) throws MongoDBException, InvalidInputException {
+	public ResponseEntity<ProductBids> showProductBids(@PathVariable String productId)
+			throws MongoDBException, InvalidInputException {
 		log.info("Got the product id {}....", productId);
 		ProductBids productBids = sellerService.showProductBids(productId);
-		
-		if(productBids != null && productBids.getProduct() != null && productBids.getProduct().getId() != null) {
+
+		if (productBids != null && productBids.getProduct() != null && productBids.getProduct().getId() != null) {
 			log.info("Got the product bids data successfully");
 			return new ResponseEntity<>(productBids, HttpStatus.OK);
-		}else {
+		} else {
 			log.info("Error while getting the product bids data successfully");
 			return new ResponseEntity<>(productBids, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	@GetMapping("/getProducts")
-	public ResponseEntity<List<Product>> getAllProducts() throws MongoDBException{
+	public ResponseEntity<List<Product>> getAllProducts() throws MongoDBException {
 		log.info("processing request to get all products from db");
 		List<Product> productsList = sellerService.getAllProducts();
-		if(!productsList.isEmpty()) {
+		if (!productsList.isEmpty()) {
 			log.info("Got all the products data successfully");
 			return new ResponseEntity<>(productsList, HttpStatus.OK);
-		}else {
+		} else {
 			log.error("Error occured while getting all products from mongo DB");
 			return new ResponseEntity<>(productsList, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
-	
-	@GetMapping("/message")
-	public String message() {
-		return "seller application deployed successfully";
 	}
 
 }
