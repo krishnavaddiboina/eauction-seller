@@ -76,8 +76,8 @@ public class SellerRepositoryImpl implements SellerRepository {
 	public List<Buyer> getBuyerDetails(String productId) throws MongoDBException {
 		log.debug("Within getBuyerDetails() of SellerRepositoryImpl class...");
 		try {
-			Query query = new Query(Criteria.where(AppConstants.PRODUCT_ID).is(productId))
-					.with(Sort.by(Sort.Direction.DESC, "bidAmount"));
+			Query query = new Query(Criteria.where(AppConstants.PRODUCT_ID).is(productId));
+					//.with(Sort.by(Sort.Direction.DESC, "bidAmount"));
 			return mongoTemplate.find(query, Buyer.class);
 		} catch (Exception exception) {
 			log.error("Error occured while getting buyer details. Error is {}", exception.getMessage());
