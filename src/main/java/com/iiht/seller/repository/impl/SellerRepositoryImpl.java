@@ -89,7 +89,7 @@ public class SellerRepositoryImpl implements SellerRepository {
 	public void deleteProduct(String productId) throws MongoDBException {
 		log.debug("Within deleteProduct() of SellerRepositoryImpl class...");
 		try {
-			Query query = new Query(Criteria.where(AppConstants.PRODUCT_ID).is(new ObjectId(productId)));
+			Query query = new Query(Criteria.where("_id").is(new ObjectId(productId)));
 			mongoTemplate.findAndRemove(query, Product.class);
 			log.info("Product deleted successfully...");
 		} catch (Exception exception) {
